@@ -1,8 +1,7 @@
 # https://www.docker.com/blog/how-to-dockerize-django-app/
 
 # Use the official Python runtime image
-# https://docs.djangoproject.com/en/5.1/faq/install/
-# Django==3.2.3
+# Django==3.2.3 https://docs.djangoproject.com/en/5.1/faq/install/
 FROM python:3.9  
  
 # Create the app directory
