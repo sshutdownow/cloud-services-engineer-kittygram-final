@@ -1,15 +1,16 @@
 import os
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-cg6*%6d51ef8f#4!r3*$vmxm4)abgjw8mo!4y-q*uq1!4$-89$'
+SECRET_KEY = os.environ.get("DJUNGO_SECRET_KEY", get_random_secret_key())
 
-DEBUG = True
+DEBUG = bool(os.getenv("DJUNGO_DEBUG", ''))
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", 'localhost 127.0.0.1 [::1]').split(' ')
 
-STATIC_ROOT = "/app/collected_static"
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

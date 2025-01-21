@@ -9,8 +9,8 @@ services:
       - backend_static:/app/collected_static
     env_file:
       - .env
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     depends_on:
       - postgres
     restart: always
@@ -22,14 +22,12 @@ services:
     container_name: frontend
     volumes:
       - frontend_static:/app/build
-    depends_on:
-      - backend
 
   gateway:
     image: sshutdownow/kittygram_gateway:latest
     container_name: gateway
     ports:
-      - "8080:8080"
+      - "80:80"
     volumes:
       - frontend_static:/var/html/static
       - backend_static:/var/html/backend
