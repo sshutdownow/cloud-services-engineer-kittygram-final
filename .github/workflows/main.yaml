@@ -146,8 +146,8 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd kittygram/
-            sudo touch .env
-            sudo chmod 0644 .env
+            touch .env
+            chmod 0644 .env
             echo SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} > .env
             echo ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }} >> .env
             echo DEBUG=${{ secrets.DJANGO_DBUG }} >> .env
