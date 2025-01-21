@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("DJUNGO_SECRET_KEY", get_random_secret_key())
@@ -9,8 +10,6 @@ SECRET_KEY = os.environ.get("DJUNGO_SECRET_KEY", get_random_secret_key())
 DEBUG = bool(os.getenv("DJUNGO_DEBUG", ''))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", 'localhost 127.0.0.1 [::1]').split(' ')
-
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
