@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       action:
+        type: choice
         description: 'Select the Terraform action'
         required: true
         default: 'plan'
