@@ -2,7 +2,7 @@
 
 ## Что нужно сделать
 * Настроить отдельный [workflow](.github/workflows/terraform.yml) для создания/удаления VM в облаке Яндекс с хранением terraform state в s3 bucket. 
-* Настроить запуск проекта Kittygram в контейнерах и CI/CD с помощью GitHub Actions
+* Настроить запуск проекта Kittygram в контейнерах и CI/CD с помощью GitHub Actions.
   
 После terraform'ирования VM, в корне репозитория создаётся/меняется файл `tests.yml`, значение `kittygram_domain` содержит актуальный внешний IP-адрес VM.
 Этот адрес используется основным [workflow](.github/workflows/main.yaml) для развёртывания и запуска проекта Kittygram.
