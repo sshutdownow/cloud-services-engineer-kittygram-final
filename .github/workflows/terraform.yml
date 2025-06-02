@@ -69,20 +69,11 @@ jobs:
         ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
-#    - name: Set the new IP address for secret SERVER_HOST
-#      if: ${{ github.event.inputs.action == 'apply' }}
-#      uses: hmanzur/actions-set-secret@v2.0.0
-#      with:
-#        name: 'SERVER_HOST'
-#        value: $VM_EXT_IP
-#        repository: hmanzur/actions-set-secret
-#        token: ${{ secrets.GITHUB_TOKEN}}
-
     - name: Set the new IP address in tests.yml and commit
       if: ${{ github.event.inputs.action == 'apply' }}
       run: |
         echo 'repo_owner: sshutdownow' > tests.yml
-        echo "kittygram_domain: $VM_EXT_IP" >> tests.yml
+        echo "kittygram_domain: http://$VM_EXT_IP:80" >> tests.yml
         echo 'dockerhub_username: sshutdownow' >> tests.yml        
         git config --global user.name 'Igor Popov'
         git config --global user.email 'ipopovi@gmail.com'
