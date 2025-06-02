@@ -132,7 +132,7 @@ jobs:
       - uses: mikefarah/yq@master
         id: get_vm_ipaddress
         with:
-          cmd: yq '.kittygram_domain' tests.yml
+          cmd: yq '.kittygram_domain' tests.yml | awk -F[/:] '{print $4}'
 
       - name: Deliver docker-compose
         uses: appleboy/scp-action@master
