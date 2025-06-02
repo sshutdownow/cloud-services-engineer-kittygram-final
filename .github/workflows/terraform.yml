@@ -28,8 +28,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.PAT }}
 
 # https://github.com/marketplace/actions/hashicorp-setup-terraform
     - name: Setup Terraform
