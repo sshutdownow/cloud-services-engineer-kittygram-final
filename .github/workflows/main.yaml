@@ -168,7 +168,7 @@ jobs:
             docker-compose -f docker-compose.production.yml pull
             docker-compose -f docker-compose.production.yml down
             docker-compose -f docker-compose.production.yml up -d
-            until pg_isready -h ${{ secrets.POSTGRES_HOST }} -p ${{ secrets.POSTGRES_PORT }}; do sleep 1; done
+            until pg_isready --host=${{ secrets.POSTGRES_HOST }} --port=${{ secrets.POSTGRES_PORT }}; do sleep 1; done
             docker-compose -f docker-compose.production.yml exec -T backend python manage.py collectstatic --noinput
             docker-compose -f docker-compose.production.yml exec -T backend python manage.py migrate
 
