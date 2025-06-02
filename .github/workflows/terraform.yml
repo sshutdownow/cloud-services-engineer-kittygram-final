@@ -82,7 +82,7 @@ jobs:
       if: ${{ github.event.inputs.action == 'apply' }}
       run: |
         echo 'repo_owner: sshutdownow' > tests.yml
-        echo 'kittygram_domain: $VM_EXT_IP' >> tests.yml
+        echo 'kittygram_domain: ${{ env.$VM_EXT_IP }}' >> tests.yml
         echo 'dockerhub_username: sshutdownow' >> tests.yml        
         git config --global user.name 'Igor Popov'
         git config --global user.email 'IP@users.noreply.github.com'
