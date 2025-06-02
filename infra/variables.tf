@@ -28,6 +28,12 @@ variable "vm_1_name" {
   default = "vm-kittygram"
 }
 
+variable "vm_user" {
+  description = "VM user"
+  type = string
+  default = "user"
+}
+
 variable "ssh_key" {
   description = "SSH Public Key"
   type = string
