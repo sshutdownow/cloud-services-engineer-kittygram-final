@@ -154,8 +154,8 @@ jobs:
           script: |
             cd kittygram/
             touch .env
-            chmod 0644 .env
             sudo chown ${{ secrets.SERVER_USER }} .env
+            chmod 0644 .env
             echo 'READ_DOT_ENV_FILE=True' > .env  
             echo SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }} >> .env
             echo ALLOWED_HOSTS=${{ secrets.DJANGO_ALLOWED_HOSTS }} >> .env
@@ -168,7 +168,6 @@ jobs:
             docker-compose -f docker-compose.production.yml pull
             docker-compose -f docker-compose.production.yml down
             docker-compose -f docker-compose.production.yml up -d
-            until pg_isready --host=${{ secrets.POSTGRES_HOST || 'localhost' }} --port=${{ secrets.POSTGRES_PORT || '5432' }}; do sleep 1; done
             docker-compose -f docker-compose.production.yml exec -T backend python manage.py collectstatic --noinput
             docker-compose -f docker-compose.production.yml exec -T backend python manage.py migrate
 
