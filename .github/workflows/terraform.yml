@@ -11,6 +11,8 @@ on:
           - plan
           - apply
           - destroy
+permissions:
+  contents: write
 
 jobs:
   terraform:
