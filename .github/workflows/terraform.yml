@@ -76,7 +76,7 @@ jobs:
         name: 'SERVER_HOST'
         value: $VM_EXT_IP
         repository: hmanzur/actions-set-secret
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN}}
 
     - name: Set the new IP address in tests.yml and commit
       if: ${{ github.event.inputs.action == 'apply' }}
