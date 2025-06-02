@@ -16,6 +16,9 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
     env:
+      YC_TOKEN: ${{ secrets.YC_TOKEN }} 
+      YC_CLOUD_ID: ${{ secrets.YC_CLOUD_ID }}
+      YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
       ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
