@@ -28,6 +28,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PAT }}
 
 # https://github.com/marketplace/actions/hashicorp-setup-terraform
     - name: Setup Terraform
@@ -59,10 +61,34 @@ jobs:
     - name: Terraform Apply
       working-directory: ./infra
       if: ${{ github.event.inputs.action == 'apply' }}
-      run: terraform apply -auto-approve
+      run: |
+        terraform apply -auto-approve
+        echo "VM_EXT_IP=$(terraform output -raw external_ip)" >> $GITHUB_ENV
+# https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#setting-an-environment-variable
       env:
         ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
+    - name: Set the new IP address for secret SERVER_HOST
+      if: ${{ github.event.inputs.action == 'apply' }}
+      uses: hmanzur/actions-set-secret@v2.0.0
+      with:
+        name: 'SERVER_HOST'
+        value: $VM_EXT_IP
+        repository: hmanzur/actions-set-secret
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+    - name: Set the new IP address in tests.yml and commit
+      if: ${{ github.event.inputs.action == 'apply' }}
+      run: |
+        echo 'repo_owner: sshutdownow' > tests.yml
+        echo 'kittygram_domain: $VM_EXT_IP' >> tests.yml
+        echo 'dockerhub_username: sshutdownow' >> tests.yml        
+        git config --global user.name 'Igor Popov'
+        git config --global user.email 'IP@users.noreply.github.com'
+        git add tests.yml
+        git commit -am "Automated commit with the new IP address in tests.yml"
+        git push
 
     - name: Terraform Destroy
       working-directory: ./infra
