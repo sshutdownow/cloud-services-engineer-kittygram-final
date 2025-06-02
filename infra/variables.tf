@@ -42,3 +42,8 @@ variable "folder_id" {
   description = "Folder ID"
   type = string
 }
+
+variable "image_family" {
+  type    = string
+  default = "ubuntu-2404-lts-oslogin"
+}
