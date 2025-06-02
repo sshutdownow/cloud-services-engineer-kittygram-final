@@ -10,27 +10,40 @@ users:
 package_update: true
 package_upgrade: true
 
-groups:
-  - docker
-
-system_info:
-  default_user:
-    groups: [ docker ]
+apt:
+  sources:
+    docker.list:
+      source: deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
 
 packages:
   - apt-transport-https
   - ca-certificates
   - curl
-  - gnupg
-  - lsb-release
-  - unattended-upgrades
+  - gnupg-agent
+  - software-properties-common
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
+
+# Enable ipv4 forwarding, required on CIS hardened machines
+write_files:
+  - path: /etc/sysctl.d/enabled_ipv4_forwarding.conf
+    content: |
+      net.ipv4.conf.all.forwarding=1
+
+# create the docker group
+groups:
+  - docker
+
+# Add default auto created user to docker group
+system_info:
+  default_user:
+    groups: [docker]
 
 runcmd:
-  - mkdir -p /etc/apt/keyrings
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-  - apt-get update
-  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
   - systemctl enable docker
   - systemctl start docker
   - usermod -aG docker ${USER}
